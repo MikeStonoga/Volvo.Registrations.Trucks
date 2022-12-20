@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="11.1.0" />
+    <ProjectReference Include="..\Volvo.Registrations.Trucks.Abstractions\Volvo.Registrations.Trucks.BusinessModels.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>
