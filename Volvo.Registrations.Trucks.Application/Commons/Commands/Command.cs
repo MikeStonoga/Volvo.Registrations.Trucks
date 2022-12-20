@@ -7,15 +7,15 @@ using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Common.Events;
 
 namespace Volvo.Registrations.Trucks.Application.Commons.Commands;
 
-public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, TResultadoDaManipulacaoDosModelosDeNegocio, IIBusinessModelPersistencyGateway>
+public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, TResultadoDaManipulacaoDosModelosDeNegocio, TIBusinessModelPersistencyGateway>
         : ICommand<TRequirement, TResult>
         where TIBusinessModel : IBusinessModel
-        where IIBusinessModelPersistencyGateway : IPersistencyGateway<TIBusinessModel>
+        where TIBusinessModelPersistencyGateway : IPersistencyGateway<TIBusinessModel>
 {
     protected readonly IUnitOfWork UnitOfWork;
     protected readonly ILogger<TCommand> Logger;
     protected readonly IMediator Mediator;
-    protected readonly IIBusinessModelPersistencyGateway DataAccessGateway;
+    protected readonly TIBusinessModelPersistencyGateway DataPersistencyGateway;
     protected readonly IDomainEventsPersistencyGateway DomainEventsPersistencyGateway;
 
 
@@ -25,34 +25,34 @@ public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, 
         ILogger<TCommand> logger,
         IMediator mediator,
         IDomainEventsPersistencyGateway domainEvents,
-        IIBusinessModelPersistencyGateway dataAccessGateway
+        TIBusinessModelPersistencyGateway dataAccessGateway
     )
     {
         UnitOfWork = unitOfWork;
         Logger = logger;
         Mediator = mediator;
         DomainEventsPersistencyGateway = domainEvents;
-        DataAccessGateway = dataAccessGateway;
+        DataPersistencyGateway = dataAccessGateway;
     }
 
-    public virtual async Task<TResult> Execute(TRequirement requisito)
+    public virtual async Task<TResult> Execute(TRequirement requirement)
     {
         try
         {
-            ManipuleModelosDoNegocioDTO.Resultado resultadoDaManipulacaoDosModelosDeNegocio;
+            ManipulateBusinessModelsDTO.Result resultadoDaManipulacaoDosModelosDeNegocio;
             List<IDomainEvent> events;
 
-            try { resultadoDaManipulacaoDosModelosDeNegocio = await ManipuleModelosDoNegocio(requisito); }
+            try { resultadoDaManipulacaoDosModelosDeNegocio = await ManipulateBusinessModels(requirement); }
             catch (Exception ex) { throw new Exception($"Falha ao manipular os modelos de negócio!", ex); }
 
-            try { events = PrepararEventosParaPublicar(new(requisitoDoComando: requisito, resultadoDaManipulacaoDosModelosDeNegocio)); }
+            try { events = PrepareEventsForPublishing(new(requisitoDoComando: requirement, resultadoDaManipulacaoDosModelosDeNegocio)); }
             catch (Exception ex) { throw new Exception($"Falha ao preparar eventos para publicar!", ex); }
 
             // TODO: Pensar melhor essa parte de salvar as alterações e publicar os eventos. uma vez que conseguiu salvar e deu erro ao publicar os eventos ficamos com uma falha
             try
             {
                 UnitOfWork.BeginTransaction();
-                await SalveAlteracoes(resultadoDaManipulacaoDosModelosDeNegocio);
+                await SaveChanges(resultadoDaManipulacaoDosModelosDeNegocio);
                 await DomainEventsPersistencyGateway.RegisterMany(events);
                 await UnitOfWork.Commit();
             }
@@ -64,7 +64,7 @@ public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, 
             try { foreach (var @event in events) await Mediator.Publish(@event); }
             catch (Exception ex) { throw new Exception($"Falha ao publicar eventos!", ex); }
 
-            try { return await FormatarResultado(new(requisito, events, resultadoDaManipulacaoDosModelosDeNegocio)); }
+            try { return await FormatResult(new(requirement, events, resultadoDaManipulacaoDosModelosDeNegocio)); }
             catch (Exception ex) { throw new Exception($"Falha ao formatar resultado!", ex); }
         }
         catch (Exception ex)
@@ -88,7 +88,7 @@ public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, 
     /// <returns>
     /// Retorna um tupla com o aggregado modificado e una lista extra de objetos  que poderão ser usadas nos outros métodos do comando
     /// </returns>
-    protected abstract Task<ManipuleModelosDoNegocioDTO.Resultado> ManipuleModelosDoNegocio(TRequirement requisito);
+    protected abstract Task<ManipulateBusinessModelsDTO.Result> ManipulateBusinessModels(TRequirement requirement);
 
     /// <summary>
     /// Realiza as alterações no banco de dados dentro de uma transação!
@@ -98,7 +98,7 @@ public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, 
     /// <param name="aggreggate">Agregado já alterado recebido do ManipulateEntityAction!</param>
     /// <param name="extras">Lista Extra de objetos recebida do ManipulateEntityAction!</param>
     /// <returns></returns>
-    protected abstract Task SalveAlteracoes(ManipuleModelosDoNegocioDTO.Resultado requisito);
+    protected abstract Task SaveChanges(ManipulateBusinessModelsDTO.Result requirement);
 
     /// <summary>
     /// Obtem o evento de domínio que será salvo junto com  as ManipulateEntityRepositoryAction!
@@ -107,7 +107,7 @@ public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, 
     /// <param name="aggreggate">Agregado já alterado recebido do ManipulateEntityAction!</param>
     /// <param name="extras">Lista Extra de objetos recebida do ManipulateEntityAction!</param>
     /// <returns>Evento de Domínio a ser salvo</returns>
-    protected abstract List<IDomainEvent> PrepararEventosParaPublicar(PrepararEventosParaPublicarDTO.Requisito requisito);
+    protected abstract List<IDomainEvent> PrepareEventsForPublishing(PrepareEventsForPublishingDTO.Requisito requirement);
 
     /// <summary>
     /// Obtem o evento de domínio que será salvo junto com  as ManipulateEntityRepositoryAction!
@@ -116,56 +116,56 @@ public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, 
     /// <param name="eventCreated">Evento de domínio que foi criado!</param>
     /// <param name="extras">Lista Extra de objetos recebida do ManipulateEntityAction!</param>
     /// <returns>Resultado a ser devolvido para a requisição</returns>
-    protected abstract Task<TResult> FormatarResultado(FormatarResultadoDTO.Requisito requisito);
+    protected abstract Task<TResult> FormatResult(FormatResultDTO.Requirement requirement);
 
-    protected abstract class ManipuleModelosDoNegocioDTO
+    protected abstract class ManipulateBusinessModelsDTO
     {
-        public class Resultado
+        public class Result
         {
-            public TResultadoDaManipulacaoDosModelosDeNegocio ResultadoDaManipulacaoDosModelosDeNegocio { get; private set; }
+            public TResultadoDaManipulacaoDosModelosDeNegocio BusinessModelManipulationResult { get; private set; }
             public object[]? Extras { get; private set; }
 
-            public Resultado(
+            public Result(
                 TResultadoDaManipulacaoDosModelosDeNegocio resultadoDaManipulacaoDosModelosDeNegocio,
                 object[]? extras = null
             )
             {
-                ResultadoDaManipulacaoDosModelosDeNegocio = resultadoDaManipulacaoDosModelosDeNegocio;
+                BusinessModelManipulationResult = resultadoDaManipulacaoDosModelosDeNegocio;
                 Extras = extras;
             }
         }
     }
 
-    protected abstract class PrepararEventosParaPublicarDTO
+    protected abstract class PrepareEventsForPublishingDTO
     {
         public class Requisito
         {
             public TRequirement RequisitoDoComando { get; private set; }
-            public TResultadoDaManipulacaoDosModelosDeNegocio ResultadoDaManipulacaoDosModelosDeNegocio { get; private set; }
+            public TResultadoDaManipulacaoDosModelosDeNegocio BusinessModelManipulationResult { get; private set; }
             public object[]? Extras { get; private set; }
 
-            public Requisito(TRequirement requisitoDoComando, ManipuleModelosDoNegocioDTO.Resultado resultadoDaManipulacaoDosModelosDeNegocio)
+            public Requisito(TRequirement requisitoDoComando, ManipulateBusinessModelsDTO.Result resultadoDaManipulacaoDosModelosDeNegocio)
             {
                 RequisitoDoComando = requisitoDoComando;
-                ResultadoDaManipulacaoDosModelosDeNegocio = resultadoDaManipulacaoDosModelosDeNegocio.ResultadoDaManipulacaoDosModelosDeNegocio;
+                BusinessModelManipulationResult = resultadoDaManipulacaoDosModelosDeNegocio.BusinessModelManipulationResult;
                 Extras = resultadoDaManipulacaoDosModelosDeNegocio.Extras;
             }
         }
     }
 
-    protected abstract class FormatarResultadoDTO
+    protected abstract class FormatResultDTO
     {
-        public class Requisito
+        public class Requirement
         {
             public TRequirement RequisitoDoComando { get; private set; }
-            public TResultadoDaManipulacaoDosModelosDeNegocio ResultadoDaManipulacaoDosModelosDeNegocio { get; private set; }
+            public TResultadoDaManipulacaoDosModelosDeNegocio BusinessModelManipulationResult { get; private set; }
             public object[]? Extras { get; private set; }
             public List<IDomainEvent> EventosPublicados { get; private set; }
 
-            public Requisito(TRequirement requisitoDoComando, List<IDomainEvent> eventosPublicados, ManipuleModelosDoNegocioDTO.Resultado resultadoDaManipulacaoDosModelosDeNegocio)
+            public Requirement(TRequirement requisitoDoComando, List<IDomainEvent> eventosPublicados, ManipulateBusinessModelsDTO.Result resultadoDaManipulacaoDosModelosDeNegocio)
             {
                 RequisitoDoComando = requisitoDoComando;
-                ResultadoDaManipulacaoDosModelosDeNegocio = resultadoDaManipulacaoDosModelosDeNegocio.ResultadoDaManipulacaoDosModelosDeNegocio;
+                BusinessModelManipulationResult = resultadoDaManipulacaoDosModelosDeNegocio.BusinessModelManipulationResult;
                 Extras = resultadoDaManipulacaoDosModelosDeNegocio.Extras;
                 EventosPublicados = eventosPublicados;
             }
@@ -173,12 +173,12 @@ public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, 
     }
 }
 
-public abstract class Command<TCommand, TRequirement, TResult, TIEntity, IIBusinessModelPersistencyGateway>
-    : Command<TCommand, TRequirement, TResult, TIEntity, TIEntity, IIBusinessModelPersistencyGateway>
+public abstract class Command<TCommand, TRequirement, TResult, TIEntity, TIBusinessModelPersistencyGateway>
+    : Command<TCommand, TRequirement, TResult, TIEntity, TIEntity, TIBusinessModelPersistencyGateway>
     where TIEntity : IBusinessModel
-    where IIBusinessModelPersistencyGateway : IPersistencyGateway<TIEntity>
+    where TIBusinessModelPersistencyGateway : IPersistencyGateway<TIEntity>
 {
-    protected Command(IUnitOfWork unitOfWork, ILogger<TCommand> logger, IMediator mediator, IDomainEventsPersistencyGateway domainEvents, IIBusinessModelPersistencyGateway dataAccessGateway)
+    protected Command(IUnitOfWork unitOfWork, ILogger<TCommand> logger, IMediator mediator, IDomainEventsPersistencyGateway domainEvents, TIBusinessModelPersistencyGateway dataAccessGateway)
         : base(unitOfWork, logger, mediator, domainEvents, dataAccessGateway)
     {
     }

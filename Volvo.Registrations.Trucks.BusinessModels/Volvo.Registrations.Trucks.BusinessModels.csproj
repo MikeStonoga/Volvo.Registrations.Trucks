@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Volvo.Registrations.Trucks.Abstractions\Volvo.Registrations.Trucks.BusinessModels.Abstractions.csproj" />
   </ItemGroup>
 

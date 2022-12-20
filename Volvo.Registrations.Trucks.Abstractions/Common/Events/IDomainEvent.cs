@@ -7,7 +7,8 @@ namespace Volvo.Registrations.Trucks.BusinessModels.Abstractions.Common.Events;
 public interface IDomainEvent : IBusinessModel, IHaveName, INotification
 {
     string SerializedContent { get; }
-    Guid? PreviousDomainEventId { get; }
+    Guid? PreviousEventId { get; }
+    void SetPreviousEventId(Guid previousEventId);
 }
 
 public interface IDomainEvent<TContent> : IDomainEvent

@@ -1,4 +1,5 @@
-﻿using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks.Commands;
+﻿using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks;
+using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks.Commands;
 
 namespace Volvo.Registrations.Trucks.BusinessModels.Trucks.Commands;
 
@@ -15,6 +16,16 @@ public abstract class RegisterTruckDTO
         public Requirement(Guid modelId)
         {
             ModelId = modelId;
+        }
+    }
+
+    public class Result : IRegisterTruckResult
+    {
+        public ITruck Truck { get; private set; }
+
+        public Result(ITruck truck)
+        {
+            Truck = truck;
         }
     }
 }
