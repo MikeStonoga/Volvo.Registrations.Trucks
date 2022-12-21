@@ -1,0 +1,41 @@
+table {
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  td, th {
+    width: 25%;
+  }
+  
+  ::host {
+      margin-bottom: 20px
+  }
+  
+  .link {
+      color: blue;
+      cursor: pointer;
+  }
+  
+  
+  .link:hover::after,
+  .link:focus::after {
+    transform: scale(1);
+  }
+  
+  .link::after {
+    opacity: 1;
+    transform: scale(0);
+    transform-origin: center;
+  }
+  
+  .actions {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+    align-content: center !important;
+  }
+  

@@ -1,0 +1,7 @@
+<div *ngFor="let menu of menus" class="menu  mt-2">
+    <span class="line" (click)="goToRoute(menu)">
+      <my-icon [iconName]="menu.icon" class="icon"></my-icon>
+      <span class="label">{{ menu.label }}</span>
+    </span>
+</div>
+  

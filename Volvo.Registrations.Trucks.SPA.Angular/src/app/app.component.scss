@@ -1,0 +1,27 @@
+.topToolbar {
+    background-color: #000000;
+    max-height: 3rem;
+    color: #FFFFFF;
+  }
+  
+  .icon {
+    color: #FFFFFF;
+    margin-right: 1rem;
+  
+    &:hover {
+      cursor: pointer;
+      color: #808080;
+    }
+  }
+  
+  .drawerContainer {
+      padding: 1rem;
+      height: calc(100vh - 6rem);
+  }
+  
+  .drawerContent {
+      background-color: #000000;
+      min-width: 5rem;
+      padding-left: 2rem;
+  }
+  

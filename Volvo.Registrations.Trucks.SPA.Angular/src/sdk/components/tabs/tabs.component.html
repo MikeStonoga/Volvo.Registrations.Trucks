@@ -1,0 +1,19 @@
+<nav mat-tab-nav-bar [tabPanel]="tabPanel">
+    <ng-container *ngFor="let tab of tabs">
+      <a mat-tab-link 
+         
+         [active]="activeTab?.name == tab.name">
+        <span
+              (click)="changeTab(tab)"
+              [routerLink]="tab.route"
+              class="tabName"
+        > {{tab.name}} </span>
+        <my-icon *ngIf="tab.isRemovable" iconName="close" (click)="removeTab(tab)"></my-icon>
+      </a>
+    </ng-container>
+  </nav>
+  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+  <section>
+    <router-outlet></router-outlet>
+  </section>
+  
