@@ -1,12 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Volvo.Registrations.Trucks.Adapters.PersistencyGateway.Trucks;
 using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks;
+using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks.Views;
+using Volvo.Registrations.Trucks.BusinessModels.Commons.DTOs;
 using Volvo.Registrations.Trucks.BusinessModels.Trucks;
+using Volvo.Registrations.Trucks.BusinessModels.Trucks.Views;
 using Volvo.Registrations.Trucks.EfCore.SqlServer.Commons.Entities.Repositories;
 
 namespace Volvo.Registrations.Trucks.EfCore.SqlServer.Trucks.Repositories;
 
-public class TruckRepository : Repository<Truck, ITruck>, ITruckPersistencyGateway
+public class TruckRepository : Repository<Truck, ITruck, IViewTruckGetAllForList>, ITruckPersistencyGateway
 {
     public TruckRepository(TrucksDbContext currentDbContext) 
         : base(currentDbContext)
@@ -30,5 +33,13 @@ public class TruckRepository : Repository<Truck, ITruck>, ITruckPersistencyGatew
             .ToListAsync();
 
         return resultado.ToHashSet<ITruck>();
+    }
+
+    public override IEnumerable<IViewTruckGetAllForList> MapBusinessModelToViewGetAllForList(List<Truck> trucks)
+       => trucks.Select(truck => new ViewTruckGetAllForList(truck));
+
+    protected override IQueryable<Truck> GetAllForListQuery(GetAllForListDTO.Requirement requirement)
+    {
+        return base.GetAllForListQuery(requirement).Include(e => e.TruckModel);
     }
 }

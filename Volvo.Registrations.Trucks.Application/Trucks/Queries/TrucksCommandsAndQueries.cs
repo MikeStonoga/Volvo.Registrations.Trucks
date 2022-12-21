@@ -4,10 +4,11 @@ using Volvo.Registrations.Trucks.Application.Abstractions.Trucks.Commands;
 using Volvo.Registrations.Trucks.Application.Commons.Queries;
 using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks;
 using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks.Commands;
+using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks.Views;
 
 namespace Volvo.Registrations.Trucks.Application.Trucks.Queries;
 
-public class TrucksCommandsAndQueries : Queries<ITruck, ITruckPersistencyGateway>, ITrucksCommandsAndQueries
+public class TrucksCommandsAndQueries : Queries<ITruck, ITruckPersistencyGateway, IViewTruckGetAllForList>, ITrucksCommandsAndQueries
 {
     private readonly IRegisterTruckCommand _registerTruck;
     private readonly IAdjustTruckCommand _adjustTruck;

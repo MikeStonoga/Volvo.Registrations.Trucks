@@ -5,6 +5,7 @@ import { SpinnerModule } from './spinner/spinner.module';
 import { TabsModule } from './tabs/tabs.module';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from './button/button.module';
+import { TableModule } from './table/table.module';
 
 
 
@@ -13,6 +14,7 @@ import { ButtonModule } from './button/button.module';
   imports: [
     CommonModule,
     TabsModule,
+    TableModule,
     IconModule,
     FormsModule,
     ButtonModule,
@@ -21,6 +23,7 @@ import { ButtonModule } from './button/button.module';
   exports: [
     TabsModule,
     IconModule,
+    TableModule,
     FormsModule,
     ButtonModule,
     SpinnerModule,

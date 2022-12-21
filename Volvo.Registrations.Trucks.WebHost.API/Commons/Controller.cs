@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Volvo.Registrations.Trucks.Application.Abstractions.Commons.Queries;
 using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Common.Entities;
+using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks.Views;
+using Volvo.Registrations.Trucks.BusinessModels.Commons.DTOs;
 
 namespace Volvo.Registrations.Trucks.WebHost.API.Commons;
 
@@ -24,6 +26,10 @@ public abstract class Controller<TIBusinessModel, TIBusinessModelQueriesAndComma
     [HttpGet]
     public virtual async Task<IActionResult> GetAll()
         => Ok(await QueriesAndCommands.GetAll());
+
+    [HttpPost]
+    public async Task<IActionResult> GetAllForList(GetAllForListDTO.Requirement requirement)
+        => Ok(await QueriesAndCommands.GetAllForList(requirement));
 
     protected async Task<IActionResult> TryExecuteEndpoint<TResult>(Func<Task<TResult>> queryOrCommandServiceCall)
     {

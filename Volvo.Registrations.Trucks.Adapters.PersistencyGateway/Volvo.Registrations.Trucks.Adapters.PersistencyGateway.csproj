@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Volvo.Registrations.Trucks.Abstractions\Volvo.Registrations.Trucks.BusinessModels.Abstractions.csproj" />
+    <ProjectReference Include="..\Volvo.Registrations.Trucks.BusinessModels\Volvo.Registrations.Trucks.BusinessModels.csproj" />
   </ItemGroup>
 
 </Project>

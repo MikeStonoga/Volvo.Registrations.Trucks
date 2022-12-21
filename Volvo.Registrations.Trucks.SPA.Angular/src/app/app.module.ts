@@ -14,7 +14,6 @@ import { SdkModule } from 'src/sdk/sdk.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { PagesModule } from './pages/pages.module';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
 import { TrucksHttpService } from './api-access/trucks/trucks.http.service';
 
 @NgModule({

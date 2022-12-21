@@ -13,13 +13,13 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'list', pathMatch: 'full' },
       { path: 'list', component: TrucksListComponent },
-      {
+      //{
       //   path: 'registry', children: [
       //     { path: '', redirectTo: 'new', pathMatch: 'full' },
       //     { path: 'new', component: TrucksRegistrationComponent },
       //     { path: ':id', component: PessoasRegistrationComponent },
       //   ]
-      },
+      //},
     ]
   }
 ];

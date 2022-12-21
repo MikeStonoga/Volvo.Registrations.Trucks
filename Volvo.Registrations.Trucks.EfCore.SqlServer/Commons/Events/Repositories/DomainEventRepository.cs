@@ -10,11 +10,15 @@ using Volvo.Registrations.Trucks.EfCore.SqlServer.Commons.Entities.Repositories;
 
 namespace Volvo.Registrations.Trucks.EfCore.SqlServer.Commons.Events.Repositories;
 
-public class DomainEventRepository : Repository<DomainEvent, IDomainEvent>, IDomainEventsPersistencyGateway
+public class DomainEventRepository : Repository<DomainEvent, IDomainEvent, object>, IDomainEventsPersistencyGateway
 {
     public DomainEventRepository(TrucksDbContext currentDbContext) 
         : base(currentDbContext)
     {
     }
 
+    public override IEnumerable<object> MapBusinessModelToViewGetAllForList(List<DomainEvent> result)
+    {
+        return result;
+    }
 }

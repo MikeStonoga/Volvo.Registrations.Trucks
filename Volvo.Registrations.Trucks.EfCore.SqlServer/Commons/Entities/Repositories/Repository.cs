@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using Volvo.Registrations.Trucks.Adapters.PersistencyGateway.Commons;
 using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Common.Entities;
+using Volvo.Registrations.Trucks.BusinessModels.Commons.DTOs;
 
 namespace Volvo.Registrations.Trucks.EfCore.SqlServer.Commons.Entities.Repositories;
-public abstract class Repository<TBusinessModel, TIBusinessModel> : IPersistencyGateway<TIBusinessModel>
+public abstract class Repository<TBusinessModel, TIBusinessModel, TIViewGetAllForList> : IPersistencyGateway<TIBusinessModel>
     where TBusinessModel : class, TIBusinessModel
     where TIBusinessModel : IBusinessModel
 {
@@ -29,39 +31,45 @@ public abstract class Repository<TBusinessModel, TIBusinessModel> : IPersistency
         return resultado.ToHashSet<TIBusinessModel>();
     }
 
-    /*public virtual async Task<ObterTodosParaExibirNaListaDTO.Resultado<TIBusinessModel>> ObterTodosParaExibirNaLista(ObterTodosParaExibirNaListaDTO.Requisito requisito)
+    public virtual async Task<GetAllForListDTO.Result<dynamic>> GetAllForList(GetAllForListDTO.Requirement requirement)
     {
-        var totalCount = await DbContext.Set<TBusinessModel>()
-            .Where(e => !requisito.IdsToIgnore.Contains(e.Id))
+        var totalCount = await GetAllForListQuery(requirement)
+            .Where(e => !requirement.IdsToIgnore.Contains(e.Id))
             .CountAsync();
 
         if (totalCount <= 0)
-            return new(new List<TIBusinessModel>(0), 0);
+            return new(new List<dynamic>(0), 0);
 
-        var queryFiltrada = DbContext.Set<TBusinessModel>()
-            .Where(e => !requisito.IdsToIgnore.Contains(e.Id))
+        var filteredQuery = GetAllForListQuery(requirement)
+            .Where(e => !requirement.IdsToIgnore.Contains(e.Id))
             // TODO: ajustar filtro
             // .Where(e => _filtrarDaLista(requisito.Filter, e))
             ;
 
-        var queryOrdernada = requisito.Sort.Direction == "desc"
-            ? queryFiltrada.OrderByDescending(MemberSelector<TBusinessModel, object>(requisito.Sort.ColumnName))
-            : queryFiltrada.OrderBy(MemberSelector<TBusinessModel, object>(requisito.Sort.ColumnName));
+        var OrdererdQuery = requirement.Sort.Direction == "desc"
+            ? filteredQuery.OrderByDescending(MemberSelector<TBusinessModel, object>(requirement.Sort.ColumnName))
+            : filteredQuery.OrderBy(MemberSelector<TBusinessModel, object>(requirement.Sort.ColumnName));
 
-        var resultado = await queryOrdernada
-            .Skip(requisito.Pagination.SkipCount)
-            .Take(requisito.Pagination.PageSize)
+        var result = await OrdererdQuery
+            .Skip(requirement.Pagination.SkipCount)
+            .Take(requirement.Pagination.PageSize)
             .ToListAsync();
 
-        return new ObterTodosParaExibirNaListaDTO.Resultado<TIBusinessModel>(resultado, totalCount);
+        return new GetAllForListDTO.Result<dynamic>(MapBusinessModelToViewGetAllForList(result), totalCount) ;
     }
+
+    protected virtual IQueryable<TBusinessModel> GetAllForListQuery(GetAllForListDTO.Requirement requirement)
+        => DbContext.Set<TBusinessModel>();
+
+
+    public abstract IEnumerable<dynamic> MapBusinessModelToViewGetAllForList(List<TBusinessModel> result);
 
     static Expression<Func<T, TValue>> MemberSelector<T, TValue>(string name)
     {
         var parameter = Expression.Parameter(typeof(T), "item");
         var body = Expression.PropertyOrField(expression: parameter, name);
         return Expression.Lambda<Func<T, TValue>>(Expression.Convert(body, typeof(object)), parameter);
-    }*/
+    }
 
     public async Task<TIBusinessModel> Insert(TIBusinessModel businessModel)
     {

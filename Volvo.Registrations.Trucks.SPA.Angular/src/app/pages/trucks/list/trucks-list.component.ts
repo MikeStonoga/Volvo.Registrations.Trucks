@@ -23,12 +23,13 @@ export class TrucksListComponent implements OnInit {
     this._tableConfiguration = new TableConfiguration({
       columns: {
         definitions: [
-          { title: 'Código', propertyName: 'codigo', type: 'link', onClick: (pessoa) => this.service.goToRegistryTab(pessoa) },
-          { title: 'Nome', propertyName: 'nome' },
-          { title: 'Nascimento', propertyName: 'dataDeNascimento', type: 'date' }
+          // { title: 'Code', propertyName: 'code', type: 'link', onClick: (truck) => this.service.goToRegistryTab(truck) },
+          // { title: 'Name', propertyName: 'name' },
+          { title: 'Model', propertyName: 'model' },
+          { title: 'Manufacturing Year', propertyName: 'manufacturingYear' }
         ],
         defaultSort: {
-          columnName: 'Codigo',
+          columnName: 'ManufacturingYear',
           direction: 'desc'
         }
       },
