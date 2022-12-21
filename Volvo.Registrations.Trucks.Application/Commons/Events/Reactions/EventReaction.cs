@@ -34,7 +34,7 @@ public abstract class EventReaction<TEventReaction, TEventToReact> : IEventReact
         {
             domainEvent.SetPreviousEventId(eventId);
         }
-        await DomainEventRepository.RegisterMany(domainEvents);
+        await DomainEventRepository.InsertMany(domainEvents);
 
         foreach (var domainEvent in domainEvents)
             await Mediator.Publish(domainEvent);

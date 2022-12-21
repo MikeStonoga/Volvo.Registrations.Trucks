@@ -4,7 +4,8 @@ public abstract class BusinessModel : IBusinessModel
 {
     #region Properties
     public Guid Id { get; private set; }
-
+    public DateTime CreationTime { get; private set; }
+    public DateTime? LastModificationTime { get; private set; }
     public DateTime? DeletionTime { get; private set; }
     public bool IsDeleted { get; private set; }
     #endregion
@@ -15,6 +16,12 @@ public abstract class BusinessModel : IBusinessModel
     protected BusinessModel(Guid? id) 
     {
         Id = id ?? Guid.NewGuid();
+        CreationTime = DateTime.UtcNow;
+    }
+
+    public void MarkAsModified()
+    {
+        LastModificationTime = DateTime.UtcNow;
     }
 
     public void MarkAsDeleted()

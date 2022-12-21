@@ -1,7 +1,7 @@
 ﻿using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks;
-using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks.Events;
+using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks.Events.Registereds;
 
-namespace Volvo.Registrations.Trucks.BusinessModels.Trucks.Events;
+namespace Volvo.Registrations.Trucks.BusinessModels.Trucks.Events.Registereds;
 
 public class TruckRegistered : ITruckRegistered
 {

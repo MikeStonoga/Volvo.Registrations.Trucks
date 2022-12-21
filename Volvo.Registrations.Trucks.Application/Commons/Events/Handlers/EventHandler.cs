@@ -12,11 +12,11 @@ public class EventHandler<TEventHandler, TEvent> : IEventHandler<DomainEvent<TEv
 
     public EventHandler(
         IBackgroundProcessingService backgroundProcessingService,
-        params IEventReaction[] reaction
+        params IEventReaction[] reactions
     )
     {
         _backgroundProcessingService = backgroundProcessingService;
-        _reactions = reaction;
+        _reactions = reactions;
     }
 
     public async Task Handle(DomainEvent<TEvent> @event, CancellationToken cancellationToken)

@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Hangfire" Version="1.7.32" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Volvo.Registrations.Trucks.Adapters.BackgroundProcessing\Volvo.Registrations.Trucks.Adapters.BackgroundProcessing.csproj" />
+  </ItemGroup>
+
 </Project>

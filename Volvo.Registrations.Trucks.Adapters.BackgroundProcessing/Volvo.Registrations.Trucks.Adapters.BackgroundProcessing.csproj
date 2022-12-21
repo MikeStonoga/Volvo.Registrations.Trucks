@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Volvo.Registrations.Trucks.Application.Abstractions\Volvo.Registrations.Trucks.Application.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>

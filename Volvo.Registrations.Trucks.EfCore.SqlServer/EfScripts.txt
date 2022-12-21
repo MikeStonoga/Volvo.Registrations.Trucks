@@ -1,0 +1,4 @@
+﻿﻿// Volvo.Registrations.Trucks.EfCore.SqlServer
+dotnet ef --startup-project ..\Volvo.Registrations.Trucks.WebHost.API\ migrations add "MIGRATION_NAME_HERE" -c "TrucksDbContext"
+dotnet ef --startup-project ..\Volvo.Registrations.Trucks.WebHost.API\ migrations remove --context "TrucksDbContext"
+dotnet ef --startup-project ..\Volvo.Registrations.Trucks.WebHost.API\ database update --context "TrucksDbContext"

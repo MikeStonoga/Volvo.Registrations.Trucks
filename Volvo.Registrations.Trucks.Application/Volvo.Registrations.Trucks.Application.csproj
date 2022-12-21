@@ -8,11 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Volvo.Registrations.Trucks.Abstractions\Volvo.Registrations.Trucks.BusinessModels.Abstractions.csproj" />
+    <ProjectReference Include="..\Volvo.Registrations.Trucks.Adapters.BackgroundProcessing\Volvo.Registrations.Trucks.Adapters.BackgroundProcessing.csproj" />
     <ProjectReference Include="..\Volvo.Registrations.Trucks.Adapters.PersistencyGateway\Volvo.Registrations.Trucks.Adapters.PersistencyGateway.csproj" />
     <ProjectReference Include="..\Volvo.Registrations.Trucks.Application.Abstractions\Volvo.Registrations.Trucks.Application.Abstractions.csproj" />
     <ProjectReference Include="..\Volvo.Registrations.Trucks.BusinessModels\Volvo.Registrations.Trucks.BusinessModels.csproj" />

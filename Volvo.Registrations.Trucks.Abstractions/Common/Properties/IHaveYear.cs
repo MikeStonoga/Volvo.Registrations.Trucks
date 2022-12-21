@@ -2,5 +2,5 @@
 
 public interface IHaveYear
 {
-    DateTime Year { get; }
+    int Year { get; }
 }

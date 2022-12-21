@@ -9,9 +9,9 @@ namespace Volvo.Registrations.Trucks.BusinessModels.Trucks;
 public class Truck : BusinessModel, ITruck
 {
     #region Properties
-    public Guid ModelId { get; private set; }
     public int ManufacturingYear { get; private set; }
-    public ITruckModel? TruckModel { get; private set; }
+    public Guid ModelId { get; private set; }
+    public ITruckModel TruckModel { get; private set; }
     #endregion
 
     #region Constructors
@@ -34,11 +34,16 @@ public class Truck : BusinessModel, ITruck
 
     public void Adjust(IAdjustTruckRequirement requirement)
     {
+        if (IsDeleted)
+            throw new Exception($"This truck was removed and cannot be adjusted!");
+
         if (requirement.HasManufacturingYear)
             ManufacturingYear = requirement.ManufacturingYear.Value;
 
         if (requirement.HasModelId)
             ModelId = requirement.ModelId.Value;
+
+        MarkAsModified();
     }
 
     public void Remove(IRemoveTruckRequirement requirement)

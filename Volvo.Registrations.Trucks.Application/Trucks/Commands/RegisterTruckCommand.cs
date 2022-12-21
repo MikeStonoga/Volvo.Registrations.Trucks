@@ -10,7 +10,7 @@ using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks;
 using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks.Commands;
 using Volvo.Registrations.Trucks.BusinessModels.Trucks;
 using Volvo.Registrations.Trucks.BusinessModels.Trucks.Commands;
-using Volvo.Registrations.Trucks.BusinessModels.Trucks.Events;
+using Volvo.Registrations.Trucks.BusinessModels.Trucks.Events.Registereds;
 
 namespace Volvo.Registrations.Trucks.Application.Trucks.Commands;
 
@@ -32,7 +32,7 @@ public class RegisterTruckCommand : Command<RegisterTruckCommand, IRegisterTruck
         return new(truck);
     }
 
-    protected override List<IDomainEvent> PrepareEventsForPublishing(PrepareEventsForPublishingDTO.Requisito requirement)
+    protected override List<IDomainEvent> PrepareEventsForPublishing(PrepareEventsForPublishingDTO.Requirement requirement)
         => new List<IDomainEvent>(capacity: 1)
         {
             new TruckRegistered(truck: requirement.BusinessModelManipulationResult).ToDomainEvent($"({nameof(Truck)}: {requirement.BusinessModelManipulationResult.Id})")

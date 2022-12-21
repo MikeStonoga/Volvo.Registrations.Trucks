@@ -53,7 +53,7 @@ public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, 
             {
                 UnitOfWork.BeginTransaction();
                 await SaveChanges(resultadoDaManipulacaoDosModelosDeNegocio);
-                await DomainEventsPersistencyGateway.RegisterMany(events);
+                await DomainEventsPersistencyGateway.InsertMany(events);
                 await UnitOfWork.Commit();
             }
             catch (Exception ex)
@@ -107,7 +107,7 @@ public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, 
     /// <param name="aggreggate">Agregado já alterado recebido do ManipulateEntityAction!</param>
     /// <param name="extras">Lista Extra de objetos recebida do ManipulateEntityAction!</param>
     /// <returns>Evento de Domínio a ser salvo</returns>
-    protected abstract List<IDomainEvent> PrepareEventsForPublishing(PrepareEventsForPublishingDTO.Requisito requirement);
+    protected abstract List<IDomainEvent> PrepareEventsForPublishing(PrepareEventsForPublishingDTO.Requirement requirement);
 
     /// <summary>
     /// Obtem o evento de domínio que será salvo junto com  as ManipulateEntityRepositoryAction!
@@ -138,13 +138,13 @@ public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, 
 
     protected abstract class PrepareEventsForPublishingDTO
     {
-        public class Requisito
+        public class Requirement
         {
             public TRequirement RequisitoDoComando { get; private set; }
             public TResultadoDaManipulacaoDosModelosDeNegocio BusinessModelManipulationResult { get; private set; }
             public object[]? Extras { get; private set; }
 
-            public Requisito(TRequirement requisitoDoComando, ManipulateBusinessModelsDTO.Result resultadoDaManipulacaoDosModelosDeNegocio)
+            public Requirement(TRequirement requisitoDoComando, ManipulateBusinessModelsDTO.Result resultadoDaManipulacaoDosModelosDeNegocio)
             {
                 RequisitoDoComando = requisitoDoComando;
                 BusinessModelManipulationResult = resultadoDaManipulacaoDosModelosDeNegocio.BusinessModelManipulationResult;
@@ -173,10 +173,10 @@ public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, 
     }
 }
 
-public abstract class Command<TCommand, TRequirement, TResult, TIEntity, TIBusinessModelPersistencyGateway>
-    : Command<TCommand, TRequirement, TResult, TIEntity, TIEntity, TIBusinessModelPersistencyGateway>
-    where TIEntity : IBusinessModel
-    where TIBusinessModelPersistencyGateway : IPersistencyGateway<TIEntity>
+public abstract class Command<TCommand, TRequirement, TResult, TIBusinessModel, TIBusinessModelPersistencyGateway>
+    : Command<TCommand, TRequirement, TResult, TIBusinessModel, TIBusinessModel, TIBusinessModelPersistencyGateway>
+    where TIBusinessModel : IBusinessModel
+    where TIBusinessModelPersistencyGateway : IPersistencyGateway<TIBusinessModel>
 {
     protected Command(IUnitOfWork unitOfWork, ILogger<TCommand> logger, IMediator mediator, IDomainEventsPersistencyGateway domainEvents, TIBusinessModelPersistencyGateway dataAccessGateway)
         : base(unitOfWork, logger, mediator, domainEvents, dataAccessGateway)
