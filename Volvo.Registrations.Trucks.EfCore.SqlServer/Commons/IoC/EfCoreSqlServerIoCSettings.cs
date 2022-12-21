@@ -3,7 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Volvo.Registrations.Trucks.Adapters.PersistencyGateway.Commons;
 using Volvo.Registrations.Trucks.Adapters.PersistencyGateway.Trucks;
+using Volvo.Registrations.Trucks.Adapters.PersistencyGateway.Trucks.Models;
 using Volvo.Registrations.Trucks.EfCore.SqlServer.Commons.Events.Repositories;
+using Volvo.Registrations.Trucks.EfCore.SqlServer.Trucks.Models.Repositories;
 using Volvo.Registrations.Trucks.EfCore.SqlServer.Trucks.Repositories;
 
 namespace Volvo.Registrations.Trucks.EfCore.SqlServer.Commons.IoC;
@@ -20,12 +22,19 @@ public static class EfCoreSqlServerIoCSettings
         services.AddScoped<IDomainEventsPersistencyGateway, DomainEventRepository>();
 
         services.RegisterTrucksEfCoreSqlServerDependencies();
+        services.RegisterTrucksModelsEfCoreSqlServerDependencies();
         return services;
     }
 
     private static IServiceCollection RegisterTrucksEfCoreSqlServerDependencies(this IServiceCollection services)
     {
         services.AddScoped<ITruckPersistencyGateway, TruckRepository>();
+        return services;
+    }
+
+    private static IServiceCollection RegisterTrucksModelsEfCoreSqlServerDependencies(this IServiceCollection services)
+    {
+        services.AddScoped<ITruckModelPersistencyGateway, TruckModelRepository>();
         return services;
     }
 }

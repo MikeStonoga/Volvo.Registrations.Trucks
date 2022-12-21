@@ -18,11 +18,11 @@ public abstract class Controller<TIBusinessModel, TIBusinessModelQueriesAndComma
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetById([FromQuery] Guid id)
+    public virtual async Task<IActionResult> GetById([FromQuery] Guid id)
         => Ok(await QueriesAndCommands.GetById(id));
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public virtual async Task<IActionResult> GetAll()
         => Ok(await QueriesAndCommands.GetAll());
 
     protected async Task<IActionResult> TryExecuteEndpoint<TResult>(Func<Task<TResult>> queryOrCommandServiceCall)
