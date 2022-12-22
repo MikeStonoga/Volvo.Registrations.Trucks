@@ -1,0 +1,10 @@
+<ng-container [formGroup]="form">
+    <mat-form-field class="example-full-width" appearance="standard">
+      <mat-label>{{ label }}</mat-label>
+      <ng-container class="internal-align">
+        <input matInput [formControlName]="controlName" [readonly]="readonly">
+        <ng-content></ng-content>
+      </ng-container>
+    </mat-form-field>
+</ng-container>
+  

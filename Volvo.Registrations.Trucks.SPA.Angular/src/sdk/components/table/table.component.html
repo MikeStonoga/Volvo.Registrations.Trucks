@@ -8,8 +8,8 @@
   
       <ng-container *ngFor="let column of configuration.required.columns.definitions"
                     [matColumnDef]="column.title">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column.title }} </th>
-        <td mat-cell *matCellDef="let row" (click)="!!column.onClick && column.onClick(row)">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header [ngStyle]="{ 'width.px': column.width ?? 100 }"> {{ column.title }} </th>
+        <td mat-cell *matCellDef="let row" [ngStyle]="{ 'width.px': column.width ?? 100 }" (click)="!!column.onClick && column.onClick(row)">
           <ng-container *ngIf="hasRegistries">
             <ng-container *ngIf="(!column?.type) || column.type == 'text'"><ng-container *ngTemplateOutlet="TextColumnDataType; context: { column, row }"></ng-container></ng-container>
             <ng-container *ngIf="column.type == 'link'"><ng-container *ngTemplateOutlet="LinkColumnDataType; context: { column, row }"></ng-container></ng-container>

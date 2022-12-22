@@ -1,0 +1,34 @@
+<div class="col" *ngIf="isLoaded">
+    <section class="actions pt-1 ">
+      <my-button *ngIf="isRegistering" label="Register" iconName="save" (click)="register()" [disabled]="!canSave"></my-button>
+      <my-button *ngIf="!isRegistering" label="Adjust" iconName="save" (click)="adjust()" [disabled]="!canSave"></my-button>
+    </section>
+    <form [formGroup]="form">
+  
+      <section class="row">
+          <section *ngIf="!isRegistering" class="col-1">
+            <my-form-input label="Code"
+              controlName="Code"
+              [disabled]="true"
+              [initialValue]="truck?.code"
+            ></my-form-input>
+          </section>
+
+          <section [class]="isRegistering ? 'col-6' : 'col-5'">
+            <my-form-input label="Name"
+              controlName="Name"
+              [required]="true"
+              [initialValue]="truck?.name"
+            ></my-form-input>
+          </section>
+
+          <section [class]="isRegistering ? 'col-6' : 'col-5'">
+            <app-truck-model-selector 
+              [idInitialValue]="truck?.modelId" 
+              [nameInitialValue]="!!truck?.truckModel ? (truck?.truckModel?.name + ' / ' + truck?.truckModel?.year) : ''"
+            ></app-truck-model-selector>
+          </section>
+      </section>
+    </form>
+</div>
+  

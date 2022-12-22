@@ -3,8 +3,8 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ReadOnlyHttpService } from "../commons/read-only.http.service";
 import { ITruck } from "./itruck.model";
-import { AdjustTruckDTORequirement, AdjustTruckDTOResult } from "./models/adjust-truck-dto.model";
-import { RegisterTruckDTORequirement, RegisterTruckDTOResult } from "./models/register-truck-dto.model";
+import { AdjustTruckDTORequirement, AdjustTruckDTOResult } from "./dtos/adjust-truck-dto.model";
+import { RegisterTruckDTORequirement, RegisterTruckDTOResult } from "./dtos/register-truck-dto.model";
 
 @Injectable({
     providedIn: 'root'

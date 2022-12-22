@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Volvo.Registrations.Trucks.BusinessModels.Trucks;
 using Volvo.Registrations.Trucks.BusinessModels.Trucks.Models;
 using Volvo.Registrations.Trucks.EfCore.SqlServer.Commons.Entities;
+using Volvo.Registrations.Trucks.EfCore.SqlServer.Commons.Entities.Mappings;
 
 namespace Volvo.Registrations.Trucks.EfCore.SqlServer.Trucks.Mappings;
 
@@ -16,6 +17,11 @@ public class TruckModelConfiguration : BusinessModelConfiguration<Truck>
     public override void Configure(EntityTypeBuilder<Truck> configuration)
     {
         base.Configure(configuration);
+
+        configuration.Property(e => e.Name)
+            .HasMaxLength(180)
+            .HasColumnName(DefaultColumnNames.NAME)
+            .IsRequired();
 
         configuration.Property(e => e.ModelId)
             .HasColumnName("model_id")

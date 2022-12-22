@@ -38,6 +38,8 @@ public abstract class BusinessModelConfiguration<TEntity> : IEntityTypeConfigura
         configuration.ToTable(TableName, DefaultSchema);
         configuration.HasKey(e => e.Id);
         configuration.Property(e => e.Id).HasColumnName(_idColumnName).IsRequired();
+        configuration.Property(e => e.Code).HasColumnName(DefaultColumnNames.CODE).ValueGeneratedOnAdd().IsRequired();
+        configuration.HasIndex(e => e.Code).IsUnique();
         configuration.Property(e => e.CreationTime).HasColumnName(DefaultColumnNames.CREATION_TIME).IsRequired();
         configuration.Property(e => e.LastModificationTime).HasColumnName(DefaultColumnNames.LAST_MODIFICATION_TIME);
         configuration.Property(e => e.DeletionTime).HasColumnName(DefaultColumnNames.DELETION_TIME);

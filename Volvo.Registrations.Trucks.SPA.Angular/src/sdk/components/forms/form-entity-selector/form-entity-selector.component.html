@@ -1,0 +1,12 @@
+<ng-container [formGroup]="form">
+    <my-form-input class="add-button" 
+        [label]="label" 
+        [readonly]="readonly"
+        [controlName]="nameControlName" 
+        [readonly]="true"
+        [initialValue]="nameInitialValue"
+        (click)="openToSelect()"
+    >
+        <my-icon iconName="search" ></my-icon>
+    </my-form-input>
+</ng-container>

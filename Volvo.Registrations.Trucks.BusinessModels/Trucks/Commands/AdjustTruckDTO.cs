@@ -10,6 +10,7 @@ public abstract class AdjustTruckDTO
         public Guid TruckId { get; set; }
         public int? ManufacturingYear { get; set; }
         public Guid? ModelId { get; set; }
+        public string? Name { get; set; }
     }
 
     public class Result : IAdjustTruckResult

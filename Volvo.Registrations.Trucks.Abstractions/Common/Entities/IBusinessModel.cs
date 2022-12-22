@@ -5,6 +5,7 @@ namespace Volvo.Registrations.Trucks.BusinessModels.Abstractions.Common.Entities
 
 public interface IBusinessModel
     : IHaveId,
+    IHaveCode,
     IHaveCreationInfo,
     IHaveLastModificationInfo,
     IHaveSoftDelete

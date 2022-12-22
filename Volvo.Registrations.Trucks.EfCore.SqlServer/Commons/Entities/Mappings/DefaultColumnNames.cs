@@ -3,6 +3,7 @@
 public static class DefaultColumnNames
 {
     public const string ID = "id";
+    public const string CODE = "code";
     public const string CREATION_TIME = "creation_time";
     public const string LAST_MODIFICATION_TIME = "last_modification_time";
     public const string DELETION_TIME = "deletion_time";

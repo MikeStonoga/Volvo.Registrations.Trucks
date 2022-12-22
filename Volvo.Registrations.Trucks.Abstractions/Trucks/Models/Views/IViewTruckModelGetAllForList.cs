@@ -1,5 +1,9 @@
-﻿namespace Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks.Models.Views;
+﻿using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Common.Properties;
+using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Common.Views;
 
-public interface IViewTruckModelGetAllForList
+namespace Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks.Models.Views;
+
+public interface IViewTruckModelGetAllForList 
+    : IView, IHaveYear, IHaveName
 {
 }

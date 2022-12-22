@@ -15,11 +15,16 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { PagesModule } from './pages/pages.module';
 import { MatIconModule } from '@angular/material/icon';
 import { TrucksHttpService } from './api-access/trucks/trucks.http.service';
+import { FormInputModule } from 'src/sdk/components/forms/form-input/form-input.module';
+import { ButtonModule } from 'src/sdk/components/button/button.module';
+import { TruckModelTableSelectorComponent } from './commons/components/trucks/models/selectors/table-selector/truck-model-table-selector.component';
+import { TrucksModelsHttpService } from './api-access/trucks/models/trucks-models.http.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent
+    MenuComponent,
+    TruckModelTableSelectorComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +35,8 @@ import { TrucksHttpService } from './api-access/trucks/trucks.http.service';
     MatToolbarModule,
     MatIconModule,
     MatSidenavModule,
+    FormInputModule,
+    ButtonModule,
     IconModule,
     SdkModule,
     LoadingSpinnerModule,
@@ -37,6 +44,7 @@ import { TrucksHttpService } from './api-access/trucks/trucks.http.service';
   ],
   providers: [
     TrucksHttpService,
+    TrucksModelsHttpService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,

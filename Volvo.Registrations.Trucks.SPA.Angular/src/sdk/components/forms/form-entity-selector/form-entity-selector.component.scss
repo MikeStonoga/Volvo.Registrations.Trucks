@@ -1,0 +1,16 @@
+.add-button {
+    cursor: pointer;
+}
+
+my-form-input {
+    mat-form-field {
+        ::ng-deep {
+          .mat-form-field-infix {
+            display: flex !important;
+          }
+        } 
+       
+    }
+}
+
+  

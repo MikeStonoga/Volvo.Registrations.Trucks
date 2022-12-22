@@ -12,6 +12,7 @@ public class Truck : BusinessModel, ITruck
     public int ManufacturingYear { get; private set; }
     public Guid ModelId { get; private set; }
     public ITruckModel TruckModel { get; private set; }
+    public string Name { get; private set; }
     #endregion
 
     #region Constructors
@@ -20,6 +21,7 @@ public class Truck : BusinessModel, ITruck
     protected Truck(IRegisterTruckRequirement requirement)
         : base(id: Guid.NewGuid())
     {
+        Name = requirement.Name;
         ModelId = requirement.ModelId;
         ManufacturingYear = DateTime.UtcNow.Year;
     }
@@ -36,6 +38,9 @@ public class Truck : BusinessModel, ITruck
     {
         if (IsDeleted)
             throw new Exception($"This truck was removed and cannot be adjusted!");
+
+        if (requirement.HasName)
+            Name = requirement.Name;
 
         if (requirement.HasManufacturingYear)
             ManufacturingYear = requirement.ManufacturingYear.Value;

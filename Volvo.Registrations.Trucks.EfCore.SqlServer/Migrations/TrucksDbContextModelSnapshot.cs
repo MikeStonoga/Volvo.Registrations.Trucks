@@ -29,6 +29,13 @@ namespace Volvo.Registrations.Trucks.EfCore.SqlServer.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("code");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Code"));
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2")
                         .HasColumnName("creation_time");
@@ -51,6 +58,9 @@ namespace Volvo.Registrations.Trucks.EfCore.SqlServer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code")
+                        .IsUnique();
+
                     b.ToTable("DomainEvent", (string)null);
                 });
 
@@ -60,6 +70,13 @@ namespace Volvo.Registrations.Trucks.EfCore.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
+
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("code");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Code"));
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2")
@@ -86,6 +103,9 @@ namespace Volvo.Registrations.Trucks.EfCore.SqlServer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code")
+                        .IsUnique();
+
                     b.ToTable("TruckModel", (string)null);
                 });
 
@@ -95,6 +115,13 @@ namespace Volvo.Registrations.Trucks.EfCore.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
+
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("code");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Code"));
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2")
@@ -120,7 +147,16 @@ namespace Volvo.Registrations.Trucks.EfCore.SqlServer.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("model_id");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(180)
+                        .HasColumnType("nvarchar(180)")
+                        .HasColumnName("name");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.HasIndex("ModelId")
                         .IsUnique();

@@ -8,6 +8,7 @@ namespace Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks;
 
 public interface ITruck
     : IBusinessModel,
+    IHaveName,
     IHaveModelId,
     IHaveManufacturingYear,
     IHaveTruckModel,

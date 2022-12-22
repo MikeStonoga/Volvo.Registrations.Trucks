@@ -15,6 +15,6 @@ export abstract class TabbedService<TIEntity extends IHaveId> {
     }
 
     public goToRegistryTab(registry: TIEntity) {
-        this.tabsComponent.changeTab({ name: 'Registry', route: `registry/${registry.id}`, isRemovable: true })
+        this.tabsComponent.changeTab({ name: 'Registry', route: `registration/${registry.id}`, isRemovable: true })
     }
 }

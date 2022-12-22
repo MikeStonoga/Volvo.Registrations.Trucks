@@ -19,6 +19,7 @@ import { TableModule } from './table/table.module';
     FormsModule,
     ButtonModule,
     SpinnerModule,
+    
   ],
   exports: [
     TabsModule,

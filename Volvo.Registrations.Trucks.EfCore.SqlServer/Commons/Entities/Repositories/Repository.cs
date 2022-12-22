@@ -98,6 +98,7 @@ public abstract class Repository<TBusinessModel, TIBusinessModel, TIViewGetAllFo
     {
         businessModel.MarkAsModified();
         DbContext.Update((TBusinessModel)businessModel);
+        DbContext.Entry((TBusinessModel)businessModel).Property(x => x.Code).IsModified = false;
 
         if (DbContext.Database.CurrentTransaction == null)
             await DbContext.SaveChangesAsync();

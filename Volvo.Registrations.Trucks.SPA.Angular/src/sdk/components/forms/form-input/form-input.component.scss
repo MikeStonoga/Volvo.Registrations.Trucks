@@ -1,0 +1,21 @@
+.example-full-width {
+    width: 100%;
+  }
+  
+  .internal-align {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+  }
+  mat-form-field {
+    ::ng-deep {
+      .mat-form-field-infix {
+        display: flex !important;
+        input {
+          height: 24px;
+        }
+      }
+    } 
+   
+  }
+  

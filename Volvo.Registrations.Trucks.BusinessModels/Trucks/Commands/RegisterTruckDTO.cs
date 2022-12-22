@@ -8,6 +8,7 @@ public abstract class RegisterTruckDTO
     public class Requirement : IRegisterTruckRequirement
     {
         public Guid ModelId { get; set; }
+        public string Name { get; set; }
 
         public Requirement()
         {

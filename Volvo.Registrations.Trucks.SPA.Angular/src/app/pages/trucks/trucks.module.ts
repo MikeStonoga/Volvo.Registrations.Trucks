@@ -5,6 +5,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { TabsModule } from 'src/sdk/components/tabs/tabs.module';
 import { TrucksListModule } from './list/trucks-list.module';
 import { TrucksListComponent } from './list/trucks-list.component';
+import { TruckRegistryComponent } from './registry/truck-registry.component';
+import { ButtonModule } from 'src/sdk/components/button/button.module';
+import { FormInputModule } from 'src/sdk/components/forms/form-input/form-input.module';
+import { TruckRegistryModule } from './registry/truck-registry.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'info', pathMatch: 'full' },
@@ -13,13 +17,13 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'list', pathMatch: 'full' },
       { path: 'list', component: TrucksListComponent },
-      //{
-      //   path: 'registry', children: [
-      //     { path: '', redirectTo: 'new', pathMatch: 'full' },
-      //     { path: 'new', component: TrucksRegistrationComponent },
-      //     { path: ':id', component: PessoasRegistrationComponent },
-      //   ]
-      //},
+      {
+        path: 'registration', children: [
+          { path: '', redirectTo: 'new', pathMatch: 'full' },
+          { path: 'new', component: TruckRegistryComponent },
+          { path: ':id', component: TruckRegistryComponent },
+        ]
+      },
     ]
   }
 ];
@@ -33,7 +37,10 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     TabsModule,
+    ButtonModule,
+    FormInputModule,
     TrucksListModule,
+    TruckRegistryModule,
   ],
   exports: [RouterModule]
 })

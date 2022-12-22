@@ -44,6 +44,7 @@ export interface TableColumnConfiguration<TData> {
   propertyName: string;
   type?: TableColumnType;
   disableSort?: boolean;
+  width?: number;
   transform?: (data: TData) => any;
   onClick?: (data: TData) => void;
 }
