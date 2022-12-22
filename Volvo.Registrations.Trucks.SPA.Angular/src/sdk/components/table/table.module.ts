@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { ButtonModule } from '../button/button.module';
+import { MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ButtonModule } from '../button/button.module';
     MatPaginatorModule,
     MatInputModule,
     ButtonModule,
+    MatSortModule,
   ],
   exports: [
     TableComponent,

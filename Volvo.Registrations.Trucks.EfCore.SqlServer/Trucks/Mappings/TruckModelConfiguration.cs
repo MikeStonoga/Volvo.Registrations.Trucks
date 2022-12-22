@@ -29,8 +29,8 @@ public class TruckModelConfiguration : BusinessModelConfiguration<Truck>
 
         configuration
             .HasOne(e => (TruckModel)e.TruckModel)
-            .WithOne()
-            .HasForeignKey<Truck>(e => e.ModelId);
+            .WithMany()
+            .HasForeignKey(e => e.ModelId);
 
         configuration.Property(e => e.ManufacturingYear)
             .HasColumnName("manufacturing_year")

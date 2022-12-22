@@ -58,6 +58,13 @@ export interface SortConfiguration {
 
 export interface TableActionsConfiguration<TData> {
   getData: (options: GetAllForListDTORequirement) => Observable<GetAllForListDTOResult<TData>>;
+  custom?: TableAction<TData>[];
+}
+
+export interface TableAction<TData> {
+  tooltip: string;
+  iconName: string;
+  act: (data: TData) => void
 }
 
 export interface GetAllForListDTOResult<TData> {
@@ -82,7 +89,7 @@ export class OptionalTableConfiguration<TData> {
     this._parametrosDaBuscaDeDados = new GetAllForListDTORequirement(
       input?.defaultFilter ?? '',
       input?.defaultSort ?? required.columns.defaultSort,
-      input?.defaultPagination ?? { skipCount: 0, pageSize: 10 }
+      input?.defaultPagination ?? { skipCount: 0, pageSize: 5 }
     );
   }
 }

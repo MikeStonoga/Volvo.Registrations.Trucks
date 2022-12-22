@@ -1,6 +1,11 @@
-<button mat-flat-button [color]="color" [disabled]="disabled" [matTooltip]="tooltip">
-    <ng-container *ngIf="!!iconName"><my-icon [iconName]="iconName"></my-icon></ng-container>
-    {{label}}
-  </button>
+<button mat-flat-button 
+  [ngClass]="{'padding-left': label }"
+  [color]="color" 
+  [disabled]="disabled" 
+  [matTooltip]="tooltip"
+>
+  <ng-container *ngIf="!!iconName"><my-icon [iconName]="iconName"></my-icon></ng-container>
+  {{label}}
+</button>
   
   

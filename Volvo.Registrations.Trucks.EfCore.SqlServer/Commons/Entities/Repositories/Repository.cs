@@ -34,14 +34,12 @@ public abstract class Repository<TBusinessModel, TIBusinessModel, TIViewGetAllFo
     public virtual async Task<GetAllForListDTO.Result<dynamic>> GetAllForList(GetAllForListDTO.Requirement requirement)
     {
         var totalCount = await GetAllForListQuery(requirement)
-            .Where(e => !requirement.IdsToIgnore.Contains(e.Id))
             .CountAsync();
 
         if (totalCount <= 0)
             return new(new List<dynamic>(0), 0);
 
         var filteredQuery = GetAllForListQuery(requirement)
-            .Where(e => !requirement.IdsToIgnore.Contains(e.Id))
             // TODO: ajustar filtro
             // .Where(e => _filtrarDaLista(requisito.Filter, e))
             ;
@@ -59,7 +57,7 @@ public abstract class Repository<TBusinessModel, TIBusinessModel, TIViewGetAllFo
     }
 
     protected virtual IQueryable<TBusinessModel> GetAllForListQuery(GetAllForListDTO.Requirement requirement)
-        => DbContext.Set<TBusinessModel>();
+        => DbContext.Set<TBusinessModel>().Where(e => !requirement.IdsToIgnore.Contains(e.Id) && !e.IsDeleted);
 
 
     public abstract IEnumerable<dynamic> MapBusinessModelToViewGetAllForList(List<TBusinessModel> result);

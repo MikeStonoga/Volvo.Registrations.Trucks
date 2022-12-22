@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volvo.Registrations.Trucks.EfCore.SqlServer;
 
@@ -11,9 +12,11 @@ using Volvo.Registrations.Trucks.EfCore.SqlServer;
 namespace Volvo.Registrations.Trucks.EfCore.SqlServer.Migrations
 {
     [DbContext(typeof(TrucksDbContext))]
-    partial class TrucksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221222032326_Fixing_Truck_And_TruckModel_Relationship")]
+    partial class FixingTruckAndTruckModelRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

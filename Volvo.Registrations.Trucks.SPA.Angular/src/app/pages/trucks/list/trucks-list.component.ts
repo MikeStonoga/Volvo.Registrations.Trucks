@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ITruck } from 'src/app/api-access/trucks/itruck.model';
 import { TrucksHttpService } from 'src/app/api-access/trucks/trucks.http.service';
@@ -25,20 +26,30 @@ export class TrucksListComponent implements OnInit {
         definitions: [
           { title: 'Code', propertyName: 'code', type: 'link', width: 30, onClick: (truck) => this.service.goToRegistryTab(truck) },
           { title: 'Name', propertyName: 'name' },
-          { title: 'Model', propertyName: 'model' },
+          { title: 'Model', propertyName: 'model', disableSort: true },
           { title: 'Manufacturing Year', propertyName: 'manufacturingYear' },
           { title: 'Registration Time', propertyName: 'creationTime' },
           { title: 'Last Modification Time', propertyName: 'lastModificationTime' },
-
         ],
         defaultSort: {
-          columnName: 'ManufacturingYear',
+          columnName: 'Code',
           direction: 'desc'
         }
       },
       actions: {
-        getData: (options) => this.httpService.getAllForList<ITruck>(options)
+        getData: (options) => this.httpService.getAllForList<ITruck>(options),
+        custom: [
+          { tooltip: 'Teste', iconName: 'delete', act: (truck) => this.remove(truck) }
+        ]
       },
+    });
+  }
+  remove(truck: ITruck): void {
+    this.httpService.remove({ truckId: truck.id }).subscribe(response => {
+      if (response instanceof HttpErrorResponse) 
+        return;
+
+      this.tableConfiguration.getData();
     });
   }
 

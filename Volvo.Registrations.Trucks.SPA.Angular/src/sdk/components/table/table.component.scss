@@ -39,3 +39,8 @@ table {
     align-content: center !important;
   }
   
+  .padding-min {
+    ::ng-deep button {
+      padding: 0 2px !important;
+    }
+  }

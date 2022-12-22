@@ -1,14 +1,14 @@
 <section class="actions mt-2 mb-2">
-    <my-button iconName="search" tooltip="Filter" [style.marginRight.px]="4"></my-button>
+    <!-- <my-button iconName="search" tooltip="Filter" [style.marginRight.px]="4"></my-button> -->
     <ng-content [select]="[headerButtons]"></ng-content>
   </section>
   
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
   
       <ng-container *ngFor="let column of configuration.required.columns.definitions"
                     [matColumnDef]="column.title">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header [ngStyle]="{ 'width.px': column.width ?? 100 }"> {{ column.title }} </th>
+        <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.propertyName" [disabled]="column.disableSort" [ngStyle]="{ 'width.px': column.width ?? 100 }"> {{ column.title }} </th>
         <td mat-cell *matCellDef="let row" [ngStyle]="{ 'width.px': column.width ?? 100 }" (click)="!!column.onClick && column.onClick(row)">
           <ng-container *ngIf="hasRegistries">
             <ng-container *ngIf="(!column?.type) || column.type == 'text'"><ng-container *ngTemplateOutlet="TextColumnDataType; context: { column, row }"></ng-container></ng-container>
@@ -17,8 +17,20 @@
             <ng-container *ngIf="column.type == 'datetime'"><ng-container *ngTemplateOutlet="DateTimeColumnDataType; context: { column, row }"></ng-container></ng-container>
           </ng-container>
         </td>
+
       </ng-container>
     
+      <ng-container *ngIf="this.hasCustomRowActions" matColumnDef="Actions">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ 'width.px': (27 * (configuration.required.actions.custom?.length ?? 0)) + 10 }">Actions</th>
+        <td mat-cell *matCellDef="let row" [ngStyle]="{ 'width.px': (27 * (configuration.required.actions.custom?.length ?? 0)) + 10 }">
+          <my-button *ngFor="let action of configuration.required.actions.custom" class="padding-min"
+            [iconName]="action.iconName"
+            [tooltip]="action.tooltip"
+            (click)="action.act(row)"
+          ></my-button>
+        </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       <!-- Row shown when there is no matching data. -->
@@ -28,8 +40,12 @@
     </table>
   
   
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"
-                   [length]="quantityOfRegistries"></mat-paginator>
+    <mat-paginator 
+      [pageSizeOptions]="[5, 10, 25, 100]" 
+      aria-label="Select page of users"
+      [length]="quantityOfRegistries"
+      (page)="paginateData($event)"
+    ></mat-paginator>
   </div>
   
   <ng-template #TextColumnDataType let-column="column" let-row="row">
