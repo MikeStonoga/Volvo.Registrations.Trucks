@@ -39,7 +39,8 @@ export class TrucksListComponent implements OnInit {
       actions: {
         getData: (options) => this.httpService.getAllForList<ITruck>(options),
         custom: [
-          { tooltip: 'Teste', iconName: 'delete', act: (truck) => this.remove(truck) }
+          { tooltip: 'Adjust', iconName: 'edit', act: (truck) => this.service.goToRegistryTab(truck) },
+          { tooltip: 'Remove', iconName: 'delete', act: (truck) => this.remove(truck) },
         ]
       },
     });

@@ -23,7 +23,7 @@
       <ng-container *ngIf="this.hasCustomRowActions" matColumnDef="Actions">
         <th mat-header-cell *matHeaderCellDef [ngStyle]="{ 'width.px': (27 * (configuration.required.actions.custom?.length ?? 0)) + 10 }">Actions</th>
         <td mat-cell *matCellDef="let row" [ngStyle]="{ 'width.px': (27 * (configuration.required.actions.custom?.length ?? 0)) + 10 }">
-          <my-button *ngFor="let action of configuration.required.actions.custom" class="padding-min"
+          <my-button *ngFor="let action of configuration.required.actions.custom" class="padding-min margin"
             [iconName]="action.iconName"
             [tooltip]="action.tooltip"
             (click)="action.act(row)"
