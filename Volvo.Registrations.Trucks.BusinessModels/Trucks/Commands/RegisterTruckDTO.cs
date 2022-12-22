@@ -13,11 +13,6 @@ public abstract class RegisterTruckDTO
         public Requirement()
         {
         }
-
-        public Requirement(Guid modelId)
-        {
-            ModelId = modelId;
-        }
     }
 
     public class Result : IRegisterTruckResult

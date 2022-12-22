@@ -44,6 +44,7 @@ app.UseAuthorization();
 var backgroundJobClient = app.Services.GetRequiredService<IBackgroundJobClient>();
 app.UseHangfire(backgroundJobClient);
 app.MapControllers();
+
 app.ApplyMigrations();
 
 app.Run();

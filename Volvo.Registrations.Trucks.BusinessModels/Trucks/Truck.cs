@@ -1,4 +1,5 @@
 ﻿using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Common.Entities;
+using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Common.Extensions.Validations;
 using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Common.Methods;
 using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks;
 using Volvo.Registrations.Trucks.BusinessModels.Abstractions.Trucks.Commands;
@@ -21,8 +22,8 @@ public class Truck : BusinessModel, ITruck
     protected Truck(IRegisterTruckRequirement requirement)
         : base(id: Guid.NewGuid())
     {
-        Name = requirement.Name;
-        ModelId = requirement.ModelId;
+        Name = requirement.Name.IsValidName(out string validatedName) ? validatedName : throw new Exception("You can't register a truck without name!");
+        ModelId = requirement.ModelId.IsValidGuid(out Guid validatedModelId) ? validatedModelId : throw new Exception("Truck model is Required!");
         ManufacturingYear = DateTime.UtcNow.Year;
     }
     #endregion
@@ -42,11 +43,8 @@ public class Truck : BusinessModel, ITruck
         if (requirement.HasName)
             Name = requirement.Name;
 
-        if (requirement.HasManufacturingYear)
-            ManufacturingYear = requirement.ManufacturingYear.Value;
-
         if (requirement.HasModelId)
-            ModelId = requirement.ModelId.Value;
+            ModelId = requirement.ModelId.Value.IsValidGuid(out Guid validatedModelId) ? validatedModelId : throw new Exception("Truck model is required!");
 
         MarkAsModified();
     }

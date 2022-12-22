@@ -3,4 +3,6 @@
 public interface IRegisterTruckCommandUnitTests
 {
     void ItRegisterSuccessfully();
+    void ItFailsWithEmptyName();
+    void ItFailsWithNoTruckModelInformed();
 }

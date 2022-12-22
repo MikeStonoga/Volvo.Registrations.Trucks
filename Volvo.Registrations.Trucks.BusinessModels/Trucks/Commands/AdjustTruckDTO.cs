@@ -8,7 +8,6 @@ public abstract class AdjustTruckDTO
     public class Requirement : IAdjustTruckRequirement
     {
         public Guid TruckId { get; set; }
-        public int? ManufacturingYear { get; set; }
         public Guid? ModelId { get; set; }
         public string? Name { get; set; }
     }
