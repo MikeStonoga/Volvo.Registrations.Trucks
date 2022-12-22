@@ -5,8 +5,11 @@
 0. It is in the .NET 7 version, so it is necessary that you have installed the sdk [Download](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-7.0.101-windows-x64-installer)
 1. The API is inside the folder **Volvo.Registrations.Trucks.WebHost.API** which is inside the solution folder **Volvo.Registrations.Trucks**
 2. Inside the API folder, you will need to configure your connection string for the *SQL Server* database.
+
   >  Change both SqlServer and HangfireConnection connection string.
+  
   >  Your connection string must contain the parameter TrustServerCertificate=True;
+  
 3. Open cmd in API folder and run command *dotnet run --launch-profile "https"*
 
 ## Front-end
@@ -21,8 +24,11 @@
 0. Está na versão .NET 7, portanto, é necessário que você tenha instalado o sdk [Download](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-7.0.101-windows-x64-installer)
 1. A API está dentro da pasta **Volvo.Registrations.Trucks.WebHost.API** que está dentro da pasta da solução **Volvo.Registrations.Trucks**
 2. Dentro da pasta da API, será necessário configurar sua connection string para o banco de dados *SQL Server*. 
+
   >  Altere tanto a connection string do SqlServer quanto do HangfireConnection.
+  
   >  Sua connection string deve conter o parâmetro TrustServerCertificate=True
+  
 3. Abra o cmd na pasta da API e execute o comando *dotnet run --launch-profile "https"*
 
 
