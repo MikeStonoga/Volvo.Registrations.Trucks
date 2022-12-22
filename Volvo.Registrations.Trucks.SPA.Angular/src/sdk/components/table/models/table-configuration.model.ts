@@ -78,12 +78,14 @@ export interface IOptionalTableConfiguration<TData> {
   defaultPagination?: PaginationConfiguration;
   defaultSort?: SortConfiguration;
   defaultFilter?: string;
-
+  title: string;
 }
 
 export class OptionalTableConfiguration<TData> {
   public get parametrosDaBuscaDeDados(): GetAllForListDTORequirement { return this._parametrosDaBuscaDeDados; };
   private _parametrosDaBuscaDeDados: GetAllForListDTORequirement;
+  public get title(): string { return this._title; }
+  private _title: string;
 
   constructor(required: RequiredTableConfiguration<TData>, input?: IOptionalTableConfiguration<TData>) {
     this._parametrosDaBuscaDeDados = new GetAllForListDTORequirement(
@@ -91,6 +93,7 @@ export class OptionalTableConfiguration<TData> {
       input?.defaultSort ?? required.columns.defaultSort,
       input?.defaultPagination ?? { skipCount: 0, pageSize: 5 }
     );
+    this._title = input?.title ?? "";
   }
 }
 

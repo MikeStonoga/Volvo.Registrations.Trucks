@@ -43,7 +43,7 @@ export class TrucksListComponent implements OnInit {
           { tooltip: 'Remove', iconName: 'delete', act: (truck) => this.remove(truck) },
         ]
       },
-    });
+    }, { title: 'Trucks'});
   }
   remove(truck: ITruck): void {
     this.httpService.remove({ truckId: truck.id }).subscribe(response => {

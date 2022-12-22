@@ -32,7 +32,7 @@ export class TruckModelTableSelectorComponent implements OnInit {
       actions: {
         getData: (options) => this.httpService.getAllForList(options, !!this.alreadySelectedId ? [this.alreadySelectedId] : [])
       }
-    });
+    }, { title: 'Select Trucks Models: ' });
   }
 
   public selectModel(model: ITruckModel): void {
