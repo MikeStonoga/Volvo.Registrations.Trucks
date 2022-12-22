@@ -9,6 +9,11 @@
   - Your connection string must contain the parameter TrustServerCertificate=True;
 3. Open cmd in API folder and run command *dotnet run --launch-profile "https"*
 
+## Front-end
+0. O projeto do frontend está dentro da pasta **Volvo.Registrations.Trucks.SPA.Angular** que está dentro de **Volvo.Registrations.Trucks**
+1. Não se esqueça de executar o *npm install* logo dentro da pasta **Volvo.Registrations.Trucks.SPA.Angular**  após ter clonado o repositório.
+2. Execute o comando *npm start*. 
+3. Acesse seu navegador na url [localhost](http://localhost:4200) - http://localhost:4200
 
 
 # PT-BR
