@@ -1,7 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ITruck } from 'src/app/api-access/trucks/itruck.model';
 import { TrucksHttpService } from 'src/app/api-access/trucks/trucks.http.service';
+import { ConfirmationDialogComponent } from 'src/sdk/components/confirmation-dialog/confirmation-dialog.component';
 import { TableConfiguration } from 'src/sdk/components/table/models/table-configuration.model';
 import { TrucksService } from '../trucks.service';
 
@@ -18,6 +20,7 @@ export class TrucksListComponent implements OnInit {
   constructor(
     private readonly service: TrucksService,
     private readonly httpService: TrucksHttpService,
+    private readonly matDialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -40,12 +43,28 @@ export class TrucksListComponent implements OnInit {
         getData: (options) => this.httpService.getAllForList<ITruck>(options),
         custom: [
           { tooltip: 'Adjust', iconName: 'edit', act: (truck) => this.service.goToRegistryTab(truck) },
-          { tooltip: 'Remove', iconName: 'delete', act: (truck) => this.remove(truck) },
+          { tooltip: 'Remove', iconName: 'delete', act: (truck) => this.removeIfConfirmed(truck) },
         ]
       },
     }, { title: 'Trucks'});
   }
-  remove(truck: ITruck): void {
+  removeIfConfirmed(truck: ITruck): void {
+    const confirmationDialogData = {
+      title: `Are you sure deleting ${truck.name}?`, 
+      message: 'This can\'t be undone!'
+    };
+    this.matDialog.open(ConfirmationDialogComponent, {data: confirmationDialogData})
+    .afterClosed()
+    .subscribe(response => {
+      if (!response || !response.confirmed)
+        return;
+
+      this.remove(truck)
+    });
+  }
+
+  public remove(truck: ITruck) {
+    
     this.httpService.remove({ truckId: truck.id }).subscribe(response => {
       if (response instanceof HttpErrorResponse) 
         return;

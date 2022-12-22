@@ -1,1 +1,12 @@
-<p>home works!</p>
+<div class="cards">
+    <mat-card *ngFor="let page of pages" 
+        class="card"
+        [matTooltip]="'Go to ' + page.label"
+        (click)="goToPage(page)"
+    >
+        <mat-card-content>
+            <my-icon [iconName]="page.icon"></my-icon>
+            {{ page.label }}
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,16 @@
+.footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.deny {
+    padding: 0 5px;
+    color: red;
+    cursor: pointer;
+}
+
+.confirm {
+    padding: 0 5px;
+    color: green;
+    cursor: pointer;
+}

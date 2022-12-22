@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { PagesService } from '../pages/pages.service';
 
 export interface Menu {
   label: string;
@@ -16,14 +17,11 @@ export class MenuComponent implements OnInit {
   @Output() selectedMenu: EventEmitter<Menu> = new EventEmitter<Menu>();
 
   public activeMenu!: Menu;
-
-  public readonly menus: Menu[] = [
-    { label: 'Home', icon: 'home', route: 'home' },
-    { label: 'Trucks', icon: 'local_shipping', route: 'trucks' },
-  ];
+  public get menus(): Menu[] {return this.pagesService.menus; }
 
   constructor(
     private readonly router: Router,
+    private readonly pagesService: PagesService,
   ) { }
 
   ngOnInit(): void {

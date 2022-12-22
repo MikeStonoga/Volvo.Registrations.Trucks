@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { LoadingInterceptor } from './commons/interceptors/loading.http.interceptor';
@@ -45,6 +45,7 @@ import { TrucksModelsHttpService } from './api-access/trucks/models/trucks-model
   providers: [
     TrucksHttpService,
     TrucksModelsHttpService,
+    Title,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
